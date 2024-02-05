@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/PTI.dir/main.cpp.o -o PTI 
