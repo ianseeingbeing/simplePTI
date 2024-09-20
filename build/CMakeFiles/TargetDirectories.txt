@@ -1,3 +1,0 @@
-/home/ian/Documents/Code/pti/build/CMakeFiles/pti.dir
-/home/ian/Documents/Code/pti/build/CMakeFiles/edit_cache.dir
-/home/ian/Documents/Code/pti/build/CMakeFiles/rebuild_cache.dir
