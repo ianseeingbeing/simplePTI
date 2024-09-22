@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
             i++;
             dpi = std::stoi(argv[i]);
         }
-        else if (arg == "-png" || arg == "-jpeg") {
+        else if (arg == "-png" || arg == "-jpeg" || arg == "-tiff") {
             imageType = arg;
         }
         else if (arg.find('/') != -1) {
@@ -67,8 +67,8 @@ int main(int argc, char *argv[]) {
     }
 
     // checks image format
-    if (imageType != "-png" && imageType != "-jpeg") {
-        std::cerr << imageType << "Error - image format is not valid. use: -png or -jpeg" << std::endl;
+    if (imageType != "-png" && imageType != "-jpeg" && imageType != "-tiff") {
+        std::cerr << imageType << "Error: use one of the flags listed below: \n    -png \n    -jpeg \n    -tiff" << std::endl;
         return 0;
     }
 
@@ -101,7 +101,7 @@ int pdf_to_img(const string pdf, const string arguments) {
     std::cout << exportDir << std::endl;
 
     // create export dir
-    string exportPath = exportDir + "/img";
+    string exportPath = exportDir + "/";
     std::cout << exportPath << std::endl;
 
     // call command
@@ -111,6 +111,19 @@ int pdf_to_img(const string pdf, const string arguments) {
     if (ptiResult != 0) {
         std::cerr << "Error converting " << pdf << std::endl;
         return 1;
+    }
+
+    // removes the '-' prefix on output
+    // -01.png -> 01.png
+    for (auto entry : std::filesystem::directory_iterator(exportPath)) {
+        const auto path = entry.path();
+        if (std::filesystem::is_regular_file(path)) {
+            string oldFile = path.filename();
+            string newFile = oldFile.substr(1);
+            string dirPath = path.string().substr(0, path.string().length() - oldFile.length());
+
+            std::filesystem::rename(dirPath + oldFile, dirPath + newFile);
+        }
     }
 
     return 0;
