@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <future>
+#include <poppler/cpp/poppler-global.h>
 
 using std::string;
 
@@ -172,6 +173,8 @@ string makeExportDirectory(const string pdf) {
     for (int i = 0; i < 4; i++) {
         dir.pop_back();
     }
+
+    dir += "_pdf";
 
     // creates an export directory for the images
     if (!std::filesystem::exists(dir)) {
